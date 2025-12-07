@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3PL - Global Fulfillment Solutions</title>
+    
+    <!-- Fonts: Inter for clean SaaS look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6', // Main Blue
+                            600: '#2563eb', // Darker Blue
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'scroll': 'scroll 25s linear infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        scroll: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Mobile Menu Transitions */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.active {
+            max-height: 100vh;
+            opacity: 1;
+        }
+
+        /* Page Transitions */
+        .page-section {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900 flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#" onclick="handleNavClick('home')" class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <div class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-200">
+                        3
+                    </div>
+                    <span class="font-bold text-2xl tracking-tighter text-slate-900">3PL</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#how-it-works" onclick="handleNavClick('home', 'how-it-works')" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition">How it Works</a>
+                    <!-- Removed Features, Pricing, Integrations links -->
+                    <button onclick="handleNavClick('home', 'get-started-section')" class="px-5 py-2.5 text-sm font-semibold text-white bg-brand-600 rounded-full hover:bg-brand-700 transition shadow-lg shadow-brand-200 transform hover:-translate-y-0.5">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white border-b border-slate-100 shadow-xl">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#home" onclick="handleNavClick('home'); toggleMobileMenu()" class="block px-3 py-2 text-base font-medium text-slate-700 hover:text-brand-600 hover:bg-slate-50 rounded-md">Home</a>
+                <a href="#how-it-works" onclick="handleNavClick('home', 'how-it-works'); toggleMobileMenu()" class="block px-3 py-2 text-base font-medium text-slate-700 hover:text-brand-600 hover:bg-slate-50 rounded-md">How it Works</a>
+                <!-- Removed Features, Pricing, Integrations links -->
+                <div class="pt-4">
+                    <button onclick="handleNavClick('home', 'get-started-section'); toggleMobileMenu()" class="block w-full text-center px-5 py-3 text-base font-semibold text-white bg-brand-600 rounded-lg hover:bg-brand-700 flex items-center justify-center gap-2">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow pt-20">
+
+        <!-- ==================== PAGE: HOME ==================== -->
+        <div id="page-home" class="page-section">
+            <!-- Hero Section -->
+            <section class="relative pt-20 pb-20 lg:pt-32 lg:pb-32 overflow-hidden">
+                <!-- Background Blobs -->
+                <div class="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+                <div class="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+
+                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-sm font-medium mb-8">
+                        <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+                        </span>
+                        Accepting new partners for Q4 2025
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-6">
+                        Direct-to-Consumer <br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">Global Fulfillment</span>
+                    </h1>
+                    
+                    <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-600 leading-relaxed">
+                        Streamline your supply chain from factory to doorstep. 
+                        We turn complex logistics into a competitive advantage with 
+                        <span class="font-semibold text-slate-900">4-10 day global delivery</span>.
+                    </p>
+                    
+                    <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="handleNavClick('home', 'get-started-section')" class="px-8 py-4 text-lg font-semibold text-white bg-brand-600 rounded-full hover:bg-brand-700 transition shadow-xl shadow-brand-200 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                            Get Started
+                        </button>
+                        <a href="#how-it-works" class="px-8 py-4 text-lg font-semibold text-slate-700 bg-white border border-slate-200 rounded-full hover:bg-slate-50 transition flex items-center justify-center gap-2">
+                            <i data-lucide="play-circle" class="w-5 h-5"></i>
+                            See How it Works
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Social Proof Marquee -->
+             <div class="w-full bg-slate-50 py-10 border-y border-slate-100 overflow-hidden">
+                <p class="text-center text-sm font-semibold text-slate-400 uppercase tracking-wider mb-6">Trusted by fast-growing brands</p>
+                <div class="relative flex overflow-x-hidden group">
+                    <div class="py-2 animate-scroll whitespace-nowrap flex gap-16 items-center">
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="zap" class="w-6 h-6"></i> VOLT</span>
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="feather" class="w-6 h-6"></i> AERO</span>
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="triangle" class="w-6 h-6"></i> PEAK</span>
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="box" class="w-6 h-6"></i> CUBE</span>
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="circle" class="w-6 h-6"></i> ORBIT</span>
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="sun" class="w-6 h-6"></i> SOLAR</span>
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="anchor" class="w-6 h-6"></i> PORT</span>
+                        <!-- Duplicate for seamless loop -->
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="zap" class="w-6 h-6"></i> VOLT</span>
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="feather" class="w-6 h-6"></i> AERO</span>
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="triangle" class="w-6 h-6"></i> PEAK</span>
+                        <span class="text-2xl font-bold text-slate-300 flex items-center gap-2"><i data-lucide="box" class="w-6 h-6"></i> CUBE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Section -->
+            <section id="how-it-works" class="py-24 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Simplify Your Supply Chain</h2>
+                        <p class="mt-4 text-slate-600 text-lg">We cut out the middlemen so you can scale faster.</p>
+                    </div>
+        
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <!-- The Old Way -->
+                        <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 opacity-70">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold text-slate-500">Traditional 3PL</h3>
+                                <span class="px-3 py-1 bg-slate-200 text-slate-500 text-xs font-bold rounded-full">SLOW & COSTLY</span>
+                            </div>
+                            <div class="space-y-6 relative">
+                                <!-- Line connecting steps -->
+                                <div class="absolute left-6 top-4 bottom-4 w-0.5 bg-slate-200 -z-10"></div>
+                                
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-400">
+                                        <i data-lucide="factory" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-slate-500">Manufacturer</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-400">
+                                        <i data-lucide="truck" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-slate-500">Freight Forwarder</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-400">
+                                        <i data-lucide="ship" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-slate-500">Ocean Freight (30+ Days)</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-400">
+                                        <i data-lucide="warehouse" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-slate-500">Local Warehouse</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-400">
+                                        <i data-lucide="package" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-slate-500">Last Mile Delivery</span>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- The 3PL Way -->
+                        <div class="bg-white p-8 rounded-3xl border-2 border-brand-100 shadow-2xl shadow-brand-100/50 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-brand-600 text-white text-xs font-bold px-4 py-1 rounded-bl-xl">RECOMMENDED</div>
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold text-brand-600">The 3PL Way</h3>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">FAST & EFFICIENT</span>
+                            </div>
+                            
+                            <div class="flex flex-col gap-6 items-center py-8">
+                                <div class="w-20 h-20 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600 mb-2">
+                                    <i data-lucide="factory" class="w-10 h-10"></i>
+                                </div>
+                                <div class="text-center">
+                                    <h4 class="font-bold text-slate-900">Manufacturer</h4>
+                                    <p class="text-sm text-slate-500">Direct integration</p>
+                                </div>
+                                
+                                <!-- Connecting Arrow -->
+                                <div class="h-16 w-0.5 bg-gradient-to-b from-brand-200 to-brand-600"></div>
+                                <div class="animate-bounce text-brand-600">
+                                    <i data-lucide="arrow-down" class="w-6 h-6"></i>
+                                </div>
+        
+                                <div class="w-24 h-24 bg-brand-600 rounded-3xl flex items-center justify-center text-white shadow-lg shadow-brand-300 mb-2">
+                                    <span class="text-3xl font-bold">3PL</span>
+                                </div>
+                                <div class="text-center">
+                                    <h4 class="font-bold text-slate-900">Global Fulfillment Hub</h4>
+                                    <p class="text-sm text-slate-500">Pick, Pack & Ship in 24hrs</p>
+                                </div>
+        
+                                <!-- Connecting Arrow -->
+                                <div class="h-16 w-0.5 bg-gradient-to-b from-brand-600 to-green-500"></div>
+                                
+                                <div class="w-full bg-slate-50 rounded-xl p-4 flex items-center justify-between border border-slate-100">
+                                    <div class="flex items-center gap-3">
+                                        <div class="bg-green-100 p-2 rounded-full text-green-600">
+                                            <i data-lucide="smile" class="w-5 h-5"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <div class="font-bold text-slate-900">Happy Customer</div>
+                                            <div class="text-xs text-slate-500">4-10 Days Delivery</div>
+                                        </div>
+                                    </div>
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEW: Split Screen Get Started Section -->
+            <section id="get-started-section" class="bg-slate-900 py-24 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-brand-900/20 to-slate-900 pointer-events-none"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="bg-slate-800 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 flex flex-col md:flex-row">
+                        
+                        <!-- Left Side: Visual -->
+                        <div class="md:w-1/2 relative min-h-[400px] md:min-h-full">
+                            <!-- Background Image/Gradient -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-brand-600 to-indigo-900"></div>
+                            
+                            <!-- Content Overlay -->
+                            <div class="absolute inset-0 p-12 flex flex-col justify-between text-white">
+                                <div>
+                                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/10 text-xs font-semibold uppercase tracking-wider mb-6">
+                                        Partner with 3PL
+                                    </div>
+                                    <h2 class="text-4xl font-bold leading-tight">Scale your brand with global infrastructure.</h2>
+                                </div>
+                                
+                                <div class="space-y-6">
+                                    <div class="flex items-start gap-4">
+                                        <div class="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                                            <i data-lucide="zap" class="w-6 h-6 text-yellow-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-lg">Fast Onboarding</h4>
+                                            <p class="text-slate-300 text-sm">Get your account set up and shipping in less than 48 hours.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                                            <i data-lucide="shield-check" class="w-6 h-6 text-green-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-lg">Guaranteed Rates</h4>
+                                            <p class="text-slate-300 text-sm">Lock in your shipping costs with our transparent pricing model.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Side: Form -->
+                        <div class="md:w-1/2 p-8 md:p-12 bg-white">
+                            <div class="mb-8">
+                                <h3 class="text-2xl font-bold text-slate-900">Interested? Let's chat.</h3>
+                                <p class="text-slate-600">We'll reach out within 1 business day.</p>
+                            </div>
+
+                            <form id="onboarding-form" onsubmit="submitOnboarding(event)" class="space-y-5">
+                                <!-- Business Type / Items -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Business Type / What items are you selling?</label>
+                                    <input type="text" id="q-type" required class="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition" placeholder="e.g., D2C Fashion">
+                                </div>
+
+                                <!-- Full Name -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name</label>
+                                    <input type="text" id="q-name" required class="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition" placeholder="John Doe">
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <!-- Business Name -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-1">Business Name</label>
+                                        <input type="text" id="q-business" required class="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition" placeholder="Company Ltd.">
+                                    </div>
+
+                                    <!-- WhatsApp Number -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-1">WhatsApp Number</label>
+                                        <input type="tel" id="q-whatsapp" required class="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition" placeholder="+1 (555) 000-0000">
+                                    </div>
+                                </div>
+
+                                <!-- Additional Info -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Additional Info</label>
+                                    <textarea id="q-info" rows="3" class="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition" placeholder="Estimated monthly volume, specific needs..."></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full py-4 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition flex items-center justify-center gap-2 shadow-lg shadow-brand-200 mt-4">
+                                    <span>Continue to WhatsApp</span>
+                                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                                </button>
+                                
+                                <p class="text-xs text-center text-slate-400 mt-4">
+                                    By clicking continue, you agree to start a WhatsApp conversation with our team.
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- REMOVED: FEATURES PAGE -->
+        <!-- REMOVED: PRICING PAGE -->
+        <!-- REMOVED: INTEGRATIONS PAGE -->
+        <!-- REMOVED: API PAGE -->
+        <!-- REMOVED: CAREERS PAGE -->
+
+        <!-- ==================== PAGE: ABOUT ==================== -->
+        <div id="page-about" class="page-section hidden">
+            <section class="py-24 bg-white">
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-4xl font-bold text-slate-900 mb-6">We are 3PL</h1>
+                    <p class="text-xl text-slate-600 leading-relaxed mb-12">
+                        Founded in 2020, we set out to solve the biggest headache in e-commerce: 
+                        the gap between manufacturing in China and customers in the West.
+                    </p>
+                </div>
+                
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="relative rounded-3xl overflow-hidden h-96 bg-slate-900 mb-20 flex items-center justify-center">
+                        <!-- Placeholder for team image -->
+                         <div class="absolute inset-0 bg-gradient-to-r from-brand-900 to-slate-900 opacity-90"></div>
+                         <div class="relative z-10 text-center">
+                             <h2 class="text-3xl font-bold text-white mb-4">Our Mission</h2>
+                             <p class="text-brand-100 max-w-2xl mx-auto text-lg">
+                                 To empower D2C brands to compete with retail giants by providing 
+                                 enterprise-grade logistics infrastructure at a fraction of the cost.
+                             </p>
+                         </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <div class="p-6">
+                            <div class="text-4xl font-bold text-brand-600 mb-2">5M+</div>
+                            <div class="text-slate-600">Orders Shipped</div>
+                        </div>
+                        <div class="p-6">
+                            <div class="text-4xl font-bold text-brand-600 mb-2">12</div>
+                            <div class="text-slate-600">Global Hubs</div>
+                        </div>
+                        <div class="p-6">
+                            <div class="text-4xl font-bold text-brand-600 mb-2">150+</div>
+                            <div class="text-slate-600">Team Members</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== PAGE: BLOG ==================== -->
+        <div id="page-blog" class="page-section hidden">
+            <section class="py-24 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl font-bold text-slate-900">Latest Insights</h1>
+                        <p class="mt-4 text-xl text-slate-600">Trends, tips, and strategies for e-commerce growth.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Post 1 -->
+                        <div class="group cursor-pointer">
+                            <div class="bg-slate-200 h-48 rounded-2xl mb-4 overflow-hidden">
+                                <div class="w-full h-full bg-slate-300 group-hover:scale-105 transition duration-500"></div> 
+                            </div>
+                            <div class="text-sm text-brand-600 font-semibold mb-2">Supply Chain</div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-brand-600 transition">How to reduce shipping costs in 2025</h3>
+                            <p class="text-slate-500 text-sm">Strategies for navigating rising carrier fees and fuel surcharges.</p>
+                        </div>
+                        <!-- Post 2 -->
+                        <div class="group cursor-pointer">
+                            <div class="bg-slate-200 h-48 rounded-2xl mb-4 overflow-hidden">
+                                <div class="w-full h-full bg-slate-300 group-hover:scale-105 transition duration-500"></div> 
+                            </div>
+                            <div class="text-sm text-brand-600 font-semibold mb-2">Marketing</div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-brand-600 transition">The Unboxing Experience: Is it worth it?</h3>
+                            <p class="text-slate-500 text-sm">Why premium packaging increases LTV and social sharing.</p>
+                        </div>
+                         <!-- Post 3 -->
+                         <div class="group cursor-pointer">
+                            <div class="bg-slate-200 h-48 rounded-2xl mb-4 overflow-hidden">
+                                <div class="w-full h-full bg-slate-300 group-hover:scale-105 transition duration-500"></div> 
+                            </div>
+                            <div class="text-sm text-brand-600 font-semibold mb-2">Q4 Prep</div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-brand-600 transition">Holiday 2025 Shipping Deadlines</h3>
+                            <p class="text-slate-500 text-sm">Key dates you need to know to ensure Christmas delivery.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== PAGE: CONTACT ==================== -->
+        <div id="page-contact" class="page-section hidden">
+            <section class="py-24 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid md:grid-cols-2 gap-16">
+                        <div>
+                            <h1 class="text-4xl font-bold text-slate-900 mb-6">Get in touch</h1>
+                            <p class="text-slate-600 text-lg mb-8">
+                                Have questions about our pricing or capabilities? Our team is ready to help you scale.
+                            </p>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-brand-50 rounded-full flex items-center justify-center text-brand-600">
+                                        <i data-lucide="mail" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-slate-900">Email Us</div>
+                                        <div class="text-slate-600">3plconsulting.contact@gmail.com</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-brand-50 rounded-full flex items-center justify-center text-brand-600">
+                                        <i data-lucide="phone" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-slate-900">WhatsApp</div>
+                                        <div class="text-slate-600">+1 951 265 7728</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-brand-50 rounded-full flex items-center justify-center text-brand-600">
+                                        <i data-lucide="phone" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-slate-900">WhatsApp</div>
+                                        <div class="text-slate-600">+1 714-477-3471</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-brand-50 rounded-full flex items-center justify-center text-brand-600">
+                                        <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-slate-900">Headquarters</div>
+                                        <div class="text-slate-600">123 Logistics Way, Los Angeles, CA</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200">
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                                    <input type="text" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition" placeholder="Your name">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                                    <input type="email" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition" placeholder="you@company.com">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Message</label>
+                                    <textarea rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition" placeholder="Tell us about your volume and needs..."></textarea>
+                                </div>
+                                <button type="button" class="w-full py-4 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== PAGE: LEGAL (Privacy & Terms) ==================== -->
+        <div id="page-privacy" class="page-section hidden">
+            <section class="py-24 bg-white">
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-8">Privacy Policy</h1>
+                    <div class="prose prose-slate">
+                        <p class="mb-4">Last updated: December 2025</p>
+                        <p class="mb-4">At 3PL, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclosure, and safeguard your information when you visit our website.</p>
+                        <h3 class="text-xl font-bold mt-6 mb-2">Information We Collect</h3>
+                        <p class="mb-4">We collect information that you provide directly to us when you register for an account, create or modify your profile, set preferences, sign-up for newsletters, or contact customer support.</p>
+                        <h3 class="text-xl font-bold mt-6 mb-2">How We Use Your Information</h3>
+                        <p class="mb-4">We use the information we collect to provide, maintain, and improve our services, such as to process transactions, identify you as a user, and send you related information including confirmations and invoices.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <div id="page-terms" class="page-section hidden">
+            <section class="py-24 bg-white">
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-8">Terms of Service</h1>
+                    <div class="prose prose-slate">
+                        <p class="mb-4">Last updated: December 2025</p>
+                        <p class="mb-4">Please read these Terms of Service ("Terms", "Terms of Service") carefully before using the 3PL website and services operated by 3PL ("us", "we", or "our").</p>
+                        <h3 class="text-xl font-bold mt-6 mb-2">Acceptance of Terms</h3>
+                        <p class="mb-4">By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.</p>
+                        <h3 class="text-xl font-bold mt-6 mb-2">Accounts</h3>
+                        <p class="mb-4">When you create an account with us, you must provide us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 bg-brand-600 rounded-md flex items-center justify-center text-white font-bold text-sm">3</div>
+                        <span class="font-bold text-xl text-white">3PL</span>
+                    </div>
+                    <p class="text-sm text-slate-400">
+                        The modern fulfillment partner for global brands. Scaling infrastructure for the next generation of commerce.
+                    </p>
+                </div>
+                
+                <!-- Removed Platform Column -->
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#about" onclick="handleNavClick('about')" class="hover:text-white transition cursor-pointer">About Us</a></li>
+                        <!-- Removed Careers -->
+                        <li><a href="#blog" onclick="handleNavClick('blog')" class="hover:text-white transition cursor-pointer">Blog</a></li>
+                        <li><a href="#contact" onclick="handleNavClick('contact')" class="hover:text-white transition cursor-pointer">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#privacy" onclick="handleNavClick('privacy')" class="hover:text-white transition cursor-pointer">Privacy Policy</a></li>
+                        <li><a href="#terms" onclick="handleNavClick('terms')" class="hover:text-white transition cursor-pointer">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-slate-800 text-center text-sm text-slate-500">
+                &copy; 2025 3PL Logistics. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Mobile Menu Logic
+        const menu = document.getElementById('mobile-menu');
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        function toggleMobileMenu() {
+            menu.classList.toggle('active');
+        }
+
+        // Router Logic
+        function handleNavClick(pageId, anchorId = null) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            
+            // Show target page
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            } else {
+                document.getElementById('page-home').classList.remove('hidden');
+            }
+
+            // Handle Scroll
+            if (anchorId) {
+                // If there is an anchor (e.g. #how-it-works on home page), scroll to it
+                setTimeout(() => {
+                    const el = document.getElementById(anchorId);
+                    if(el) el.scrollIntoView();
+                }, 50);
+            } else {
+                // Otherwise scroll to top
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Handle URL Hash on Load (e.g. reload on #pricing)
+        window.addEventListener('load', () => {
+            const hash = window.location.hash.substring(1); // remove #
+            if (hash) {
+                if (document.getElementById('page-' + hash)) {
+                    handleNavClick(hash);
+                }
+            }
+        });
+
+        // FAQ Toggle
+        function toggleFaq(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            content.classList.toggle('hidden');
+            if (content.classList.contains('hidden')) {
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Onboarding Form Handler
+        function submitOnboarding(e) {
+            e.preventDefault();
+            
+            const type = document.getElementById('q-type').value;
+            const name = document.getElementById('q-name').value;
+            const business = document.getElementById('q-business').value;
+            const whatsapp = document.getElementById('q-whatsapp').value;
+            const info = document.getElementById('q-info').value;
+
+            const message = `*New Onboarding Request from Website*
+            
+*Full Name:* ${name}
+*Business Name:* ${business}
+*Business Type/Items:* ${type}
+*User's WhatsApp:* ${whatsapp}
+*Additional Info:* ${info}`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const targetNumber = '19512657728'; // Your number
+
+            // Open WhatsApp
+            window.open(`https://wa.me/${targetNumber}?text=${encodedMessage}`, '_blank');
+        }
+    </script>
+</body>
+</html>
